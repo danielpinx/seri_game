@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/daniel/Desktop/seri_game log --oneline -10)",
+      "Bash(sort:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npx create-next-app@latest portal --typescript --tailwind --app --src-dir --eslint --no-turbopack --import-alias \"@/*\" --use-npm --no-experimental-app 2)",
+      "Bash(1 << 'EOF'\nNo\nEOF)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}
