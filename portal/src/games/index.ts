@@ -188,6 +188,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "pacman",
+    name: "Pac-Man",
+    description: "Eat dots, avoid ghosts",
+    gpCost: 10,
+    controls: "Arrow Keys",
+    tags: ["classic", "arcade"],
+    config: {
+      id: "pacman",
+      width: 640,
+      height: 740,
+      fps: 60,
+      backgroundColor: "#060610",
+    },
+    create: async (canvas, callbacks) => {
+      const { PacManGame } = await import("./pacman/PacManGame");
+      const game = new PacManGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
