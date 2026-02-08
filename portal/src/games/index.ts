@@ -230,6 +230,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "connect4",
+    name: "Connect Four",
+    description: "Drop discs, connect 4 vs AI",
+    gpCost: 5,
+    controls: "Mouse click",
+    tags: ["classic", "strategy"],
+    config: {
+      id: "connect4",
+      width: 620,
+      height: 680,
+      fps: 60,
+      backgroundColor: "#0a0c1a",
+    },
+    create: async (canvas, callbacks) => {
+      const { Connect4Game } = await import("./connect4/Connect4Game");
+      const game = new Connect4Game(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
