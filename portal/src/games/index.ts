@@ -400,6 +400,111 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "bubble-shooter",
+    name: "Bubble Shooter",
+    description: "Aim, shoot, pop bubbles",
+    gpCost: 5,
+    controls: "Mouse aim + click",
+    tags: ["arcade", "puzzle"],
+    config: {
+      id: "bubble-shooter",
+      width: 480,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { BubbleShooterGame } = await import("./bubble-shooter/BubbleShooterGame");
+      const game = new BubbleShooterGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "typing",
+    name: "Type Attack",
+    description: "Type falling words to survive",
+    gpCost: 5,
+    controls: "Keyboard",
+    tags: ["arcade", "typing"],
+    config: {
+      id: "typing",
+      width: 640,
+      height: 640,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { TypingGame } = await import("./typing/TypingGame");
+      const game = new TypingGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "brick-builder",
+    name: "Brick Builder",
+    description: "Fit blocks, clear lines",
+    gpCost: 5,
+    controls: "Mouse drag & drop",
+    tags: ["puzzle", "strategy"],
+    config: {
+      id: "brick-builder",
+      width: 520,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { BrickBuilderGame } = await import("./brick-builder/BrickBuilderGame");
+      const game = new BrickBuilderGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "sokoban",
+    name: "Sokoban",
+    description: "Push boxes to targets",
+    gpCost: 5,
+    controls: "Arrow Keys + Z/R",
+    tags: ["puzzle", "classic"],
+    config: {
+      id: "sokoban",
+      width: 560,
+      height: 620,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { SokobanGame } = await import("./sokoban/SokobanGame");
+      const game = new SokobanGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "simon-says",
+    name: "Simon Says",
+    description: "Repeat the pattern",
+    gpCost: 5,
+    controls: "Mouse + Q/W/A/S",
+    tags: ["memory", "arcade"],
+    config: {
+      id: "simon-says",
+      width: 480,
+      height: 560,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { SimonSaysGame } = await import("./simon-says/SimonSaysGame");
+      const game = new SimonSaysGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
