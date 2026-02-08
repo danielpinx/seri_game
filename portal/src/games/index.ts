@@ -125,6 +125,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "breakout",
+    name: "Breakout",
+    description: "Smash bricks with combos",
+    gpCost: 5,
+    controls: "Left/Right + Space",
+    tags: ["classic", "arcade"],
+    config: {
+      id: "breakout",
+      width: 900,
+      height: 640,
+      fps: 60,
+      backgroundColor: "#0a0c1a",
+    },
+    create: async (canvas, callbacks) => {
+      const { BreakoutGame } = await import("./breakout/BreakoutGame");
+      const game = new BreakoutGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
