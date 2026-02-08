@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-02-08T03:11:39.091Z",
+  "lastUpdated": "2026-02-08T07:22:17.572Z",
   "activeFeatures": [
     "config",
     "engine",
@@ -14,10 +14,43 @@
     "snake",
     "tetris",
     "space-invaders",
-    "falling-sand"
+    "falling-sand",
+    "breakout",
+    "2048",
+    "asteroids",
+    "pacman",
+    "solitaire",
+    "connect4",
+    "tower-defense",
+    "rhythm",
+    "wordle",
+    "checkers",
+    "sudoku",
+    "memory-match",
+    "hangman",
+    "bubble-shooter",
+    "typing",
+    "simon-says",
+    "sokoban",
+    "doodle-jump",
+    "whack-a-mole",
+    "pipe-puzzle"
   ],
   "primaryFeature": "config",
   "features": {
+    "2048": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T04:57:06.484Z",
+        "lastUpdated": "2026-02-08T04:57:06.484Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/2048/Game2048.ts"
+    },
     "config": {
       "phase": "do",
       "phaseNumber": 3,
@@ -92,7 +125,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-08T01:34:02.114Z",
-        "lastUpdated": "2026-02-08T02:06:17.307Z"
+        "lastUpdated": "2026-02-08T07:22:17.572Z"
       },
       "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/index.ts"
     },
@@ -186,6 +219,253 @@
         "lastUpdated": "2026-02-08T02:06:35.888Z"
       },
       "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/falling-sand/FallingSandGame.ts"
+    },
+    "breakout": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T04:49:54.138Z",
+        "lastUpdated": "2026-02-08T04:53:34.498Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/breakout/BreakoutGame.ts"
+    },
+    "asteroids": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T05:17:52.325Z",
+        "lastUpdated": "2026-02-08T05:17:52.325Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/asteroids/AsteroidsGame.ts"
+    },
+    "pacman": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T05:35:58.334Z",
+        "lastUpdated": "2026-02-08T05:35:58.334Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/pacman/PacManGame.ts"
+    },
+    "solitaire": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T05:46:59.012Z",
+        "lastUpdated": "2026-02-08T05:46:59.012Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/solitaire/SolitaireGame.ts"
+    },
+    "connect4": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T06:07:02.070Z",
+        "lastUpdated": "2026-02-08T06:07:02.070Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/connect4/Connect4Game.ts"
+    },
+    "tower-defense": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T06:18:11.976Z",
+        "lastUpdated": "2026-02-08T06:18:11.976Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/tower-defense/TowerDefenseGame.ts"
+    },
+    "rhythm": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T06:43:45.065Z",
+        "lastUpdated": "2026-02-08T06:46:01.484Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/rhythm/RhythmGame.ts"
+    },
+    "wordle": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T06:52:17.673Z",
+        "lastUpdated": "2026-02-08T06:52:17.673Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/wordle/WordleGame.ts"
+    },
+    "checkers": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:02:09.478Z",
+        "lastUpdated": "2026-02-08T07:02:09.478Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/checkers/CheckersGame.ts"
+    },
+    "sudoku": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:02:16.330Z",
+        "lastUpdated": "2026-02-08T07:02:16.330Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/sudoku/SudokuGame.ts"
+    },
+    "memory-match": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:02:36.371Z",
+        "lastUpdated": "2026-02-08T07:03:18.555Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/memory-match/MemoryMatchGame.ts"
+    },
+    "hangman": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:02:48.620Z",
+        "lastUpdated": "2026-02-08T07:02:48.620Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/hangman/HangmanGame.ts"
+    },
+    "bubble-shooter": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:11:06.370Z",
+        "lastUpdated": "2026-02-08T07:11:23.639Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/bubble-shooter/BubbleShooterGame.ts"
+    },
+    "typing": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:11:44.624Z",
+        "lastUpdated": "2026-02-08T07:11:44.624Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/typing/TypingGame.ts"
+    },
+    "simon-says": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:12:07.129Z",
+        "lastUpdated": "2026-02-08T07:12:07.129Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/simon-says/SimonSaysGame.ts"
+    },
+    "sokoban": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:12:20.857Z",
+        "lastUpdated": "2026-02-08T07:12:20.857Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/sokoban/SokobanGame.ts"
+    },
+    "doodle-jump": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:20:02.194Z",
+        "lastUpdated": "2026-02-08T07:20:18.704Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/doodle-jump/DoodleJumpGame.ts"
+    },
+    "whack-a-mole": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:20:49.937Z",
+        "lastUpdated": "2026-02-08T07:21:03.143Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/whack-a-mole/WhackAMoleGame.ts"
+    },
+    "pipe-puzzle": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-08T07:20:59.744Z",
+        "lastUpdated": "2026-02-08T07:21:27.851Z"
+      },
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/games/pipe-puzzle/PipePuzzleGame.ts"
     }
   },
   "pipeline": {
@@ -196,7 +476,7 @@
   "session": {
     "startedAt": "2026-02-08T01:11:35.112Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-02-08T03:11:39.091Z"
+    "lastActivity": "2026-02-08T07:22:17.572Z"
   },
   "history": [
     {
@@ -532,6 +812,270 @@
     {
       "timestamp": "2026-02-08T03:11:39.090Z",
       "feature": "pong",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:49:54.138Z",
+      "feature": "breakout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:50:03.772Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:52:37.966Z",
+      "feature": "breakout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:53:34.498Z",
+      "feature": "breakout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:57:06.484Z",
+      "feature": "2048",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T04:57:12.874Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:17:52.325Z",
+      "feature": "asteroids",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:18:01.817Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:35:58.334Z",
+      "feature": "pacman",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:36:08.233Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:46:59.012Z",
+      "feature": "solitaire",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T05:47:11.720Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:07:02.070Z",
+      "feature": "connect4",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:07:11.937Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:18:11.977Z",
+      "feature": "tower-defense",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:19:45.645Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:43:45.065Z",
+      "feature": "rhythm",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:43:57.305Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:46:01.484Z",
+      "feature": "rhythm",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:52:17.673Z",
+      "feature": "wordle",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T06:52:27.276Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:02:09.478Z",
+      "feature": "checkers",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:02:16.330Z",
+      "feature": "sudoku",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:02:36.371Z",
+      "feature": "memory-match",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:02:48.620Z",
+      "feature": "hangman",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:02:50.197Z",
+      "feature": "memory-match",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:03:14.356Z",
+      "feature": "memory-match",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:03:18.555Z",
+      "feature": "memory-match",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:04:27.695Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:11:06.370Z",
+      "feature": "bubble-shooter",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:11:20.653Z",
+      "feature": "bubble-shooter",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:11:23.639Z",
+      "feature": "bubble-shooter",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:11:44.624Z",
+      "feature": "typing",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:12:07.129Z",
+      "feature": "simon-says",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:12:20.857Z",
+      "feature": "sokoban",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:13:03.789Z",
+      "feature": "games",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:20:02.194Z",
+      "feature": "doodle-jump",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:20:18.704Z",
+      "feature": "doodle-jump",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:20:49.937Z",
+      "feature": "whack-a-mole",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:20:59.744Z",
+      "feature": "pipe-puzzle",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:21:03.143Z",
+      "feature": "whack-a-mole",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:21:21.634Z",
+      "feature": "pipe-puzzle",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:21:27.851Z",
+      "feature": "pipe-puzzle",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-08T07:22:17.572Z",
+      "feature": "games",
       "phase": "do",
       "action": "updated"
     }
