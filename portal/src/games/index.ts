@@ -316,6 +316,90 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "checkers",
+    name: "Checkers",
+    description: "Classic draughts vs AI",
+    gpCost: 5,
+    controls: "Mouse click",
+    tags: ["classic", "strategy"],
+    config: {
+      id: "checkers",
+      width: 640,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { CheckersGame } = await import("./checkers/CheckersGame");
+      const game = new CheckersGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "sudoku",
+    name: "Sudoku",
+    description: "Fill the 9x9 number grid",
+    gpCost: 5,
+    controls: "Mouse + Number keys",
+    tags: ["puzzle", "logic"],
+    config: {
+      id: "sudoku",
+      width: 540,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { SudokuGame } = await import("./sudoku/SudokuGame");
+      const game = new SudokuGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "memory-match",
+    name: "Memory Match",
+    description: "Flip cards, find pairs",
+    gpCost: 5,
+    controls: "Mouse click",
+    tags: ["puzzle", "memory"],
+    config: {
+      id: "memory-match",
+      width: 560,
+      height: 640,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { MemoryMatchGame } = await import("./memory-match/MemoryMatchGame");
+      const game = new MemoryMatchGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "hangman",
+    name: "Hangman",
+    description: "Guess the word, save the man",
+    gpCost: 5,
+    controls: "Keyboard + Mouse",
+    tags: ["word", "classic"],
+    config: {
+      id: "hangman",
+      width: 480,
+      height: 680,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { HangmanGame } = await import("./hangman/HangmanGame");
+      const game = new HangmanGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
