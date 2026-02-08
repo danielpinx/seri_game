@@ -295,6 +295,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "wordle",
+    name: "Wordle",
+    description: "Guess the 5-letter word",
+    gpCost: 5,
+    controls: "Keyboard + Mouse",
+    tags: ["puzzle", "word"],
+    config: {
+      id: "wordle",
+      width: 480,
+      height: 680,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { WordleGame } = await import("./wordle/WordleGame");
+      const game = new WordleGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
