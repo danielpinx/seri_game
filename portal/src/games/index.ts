@@ -209,6 +209,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "solitaire",
+    name: "Solitaire",
+    description: "Classic Klondike card game",
+    gpCost: 5,
+    controls: "Mouse drag & drop",
+    tags: ["classic", "cards"],
+    config: {
+      id: "solitaire",
+      width: 660,
+      height: 900,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { SolitaireGame } = await import("./solitaire/SolitaireGame");
+      const game = new SolitaireGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
