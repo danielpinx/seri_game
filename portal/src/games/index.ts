@@ -146,6 +146,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "2048",
+    name: "2048",
+    description: "Merge tiles, reach 2048",
+    gpCost: 5,
+    controls: "Arrow Keys",
+    tags: ["puzzle", "strategy"],
+    config: {
+      id: "2048",
+      width: 520,
+      height: 620,
+      fps: 60,
+      backgroundColor: "#0a0c1a",
+    },
+    create: async (canvas, callbacks) => {
+      const { Game2048 } = await import("./2048/Game2048");
+      const game = new Game2048(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
