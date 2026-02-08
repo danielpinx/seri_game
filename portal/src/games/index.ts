@@ -251,6 +251,29 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "tower-defense",
+    name: "Tower Defense",
+    description: "Build towers, stop the waves",
+    gpCost: 10,
+    controls: "Mouse + 1/2/3 keys",
+    tags: ["strategy", "tower-defense"],
+    config: {
+      id: "tower-defense",
+      width: 760,
+      height: 680,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { TowerDefenseGame } = await import(
+        "./tower-defense/TowerDefenseGame"
+      );
+      const game = new TowerDefenseGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
