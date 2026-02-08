@@ -274,6 +274,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "rhythm",
+    name: "Rhythm",
+    description: "Hit notes to the beat",
+    gpCost: 10,
+    controls: "D / F / J / K",
+    tags: ["rhythm", "arcade"],
+    config: {
+      id: "rhythm",
+      width: 520,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { RhythmGame } = await import("./rhythm/RhythmGame");
+      const game = new RhythmGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
