@@ -167,6 +167,27 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "asteroids",
+    name: "Asteroids",
+    description: "Destroy asteroids in space",
+    gpCost: 5,
+    controls: "Arrows + Space",
+    tags: ["classic", "shooter"],
+    config: {
+      id: "asteroids",
+      width: 800,
+      height: 800,
+      fps: 60,
+      backgroundColor: "#060610",
+    },
+    create: async (canvas, callbacks) => {
+      const { AsteroidsGame } = await import("./asteroids/AsteroidsGame");
+      const game = new AsteroidsGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
