@@ -505,6 +505,69 @@ export const GAME_REGISTRY: GameRegistryEntry[] = [
       return game;
     },
   },
+  {
+    id: "doodle-jump",
+    name: "Doodle Jump",
+    description: "Bounce higher and higher",
+    gpCost: 5,
+    controls: "Left/Right + Space",
+    tags: ["arcade", "platformer"],
+    config: {
+      id: "doodle-jump",
+      width: 400,
+      height: 700,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { DoodleJumpGame } = await import("./doodle-jump/DoodleJumpGame");
+      const game = new DoodleJumpGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "whack-a-mole",
+    name: "Whack-a-Mole",
+    description: "Whack moles, avoid bombs",
+    gpCost: 5,
+    controls: "Mouse click",
+    tags: ["arcade", "reflex"],
+    config: {
+      id: "whack-a-mole",
+      width: 520,
+      height: 620,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { WhackAMoleGame } = await import("./whack-a-mole/WhackAMoleGame");
+      const game = new WhackAMoleGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
+  {
+    id: "pipe-puzzle",
+    name: "Pipe Puzzle",
+    description: "Connect pipes, flow water",
+    gpCost: 5,
+    controls: "Mouse click to rotate",
+    tags: ["puzzle", "logic"],
+    config: {
+      id: "pipe-puzzle",
+      width: 520,
+      height: 640,
+      fps: 60,
+      backgroundColor: "#0a0c14",
+    },
+    create: async (canvas, callbacks) => {
+      const { PipePuzzleGame } = await import("./pipe-puzzle/PipePuzzleGame");
+      const game = new PipePuzzleGame(canvas, callbacks);
+      game.init();
+      return game;
+    },
+  },
 ];
 
 export function getGameById(id: string): GameRegistryEntry | undefined {
