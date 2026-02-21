@@ -7,10 +7,11 @@ import { useSettingsStore } from "@/store/useSettingsStore";
 import { SettingsModal } from "./SettingsModal";
 
 export function UserPanel() {
-  const { balance, dailyAmount, isLoaded, initialize } = useGpStore();
+  const { balance, isLoaded, initialize } = useGpStore();
   const {
     nickname,
     avatar,
+    dailyGp,
     isLoaded: settingsLoaded,
     initialize: initSettings,
   } = useSettingsStore();
@@ -21,7 +22,7 @@ export function UserPanel() {
     initSettings();
   }, [initialize, initSettings]);
 
-  const percentage = isLoaded ? (balance / dailyAmount) * 100 : 0;
+  const percentage = isLoaded ? (balance / dailyGp) * 100 : 0;
 
   return (
     <div className="px-5 py-4 border-b border-border">
@@ -71,7 +72,7 @@ export function UserPanel() {
           </span>
           <span className="text-gold text-xs font-semibold glow-gold">
             {isLoaded ? balance : "--"}
-            <span className="text-text-muted font-normal"> / {dailyAmount}</span>
+            <span className="text-text-muted font-normal"> / {dailyGp}</span>
           </span>
         </div>
         {/* Progress bar */}

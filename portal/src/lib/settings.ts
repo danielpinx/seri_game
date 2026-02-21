@@ -3,12 +3,16 @@ import {
   DEFAULT_NICKNAME,
   DEFAULT_AVATAR,
   DEFAULT_DIFFICULTY,
+  DEFAULT_DAILY_GP,
+  DAILY_GP_OPTIONS,
+  AVATAR_OPTIONS,
 } from "@/config/constants";
 
 export interface SettingsState {
   nickname: string;
   avatar: string;
   difficulty: number;
+  dailyGp: number;
 }
 
 function getDefaults(): SettingsState {
@@ -16,6 +20,7 @@ function getDefaults(): SettingsState {
     nickname: DEFAULT_NICKNAME,
     avatar: DEFAULT_AVATAR,
     difficulty: DEFAULT_DIFFICULTY,
+    dailyGp: DEFAULT_DAILY_GP,
   };
 }
 
@@ -30,8 +35,13 @@ export function loadSettings(): SettingsState {
     const parsed = JSON.parse(stored);
     return {
       nickname: parsed.nickname || DEFAULT_NICKNAME,
-      avatar: parsed.avatar || DEFAULT_AVATAR,
+      avatar: AVATAR_OPTIONS.includes(parsed.avatar)
+        ? parsed.avatar
+        : DEFAULT_AVATAR,
       difficulty: parsed.difficulty ?? DEFAULT_DIFFICULTY,
+      dailyGp: (DAILY_GP_OPTIONS as readonly number[]).includes(parsed.dailyGp)
+        ? parsed.dailyGp
+        : DEFAULT_DAILY_GP,
     };
   } catch {
     return getDefaults();
@@ -55,6 +65,15 @@ export function updateAvatar(avatar: string): SettingsState {
 export function updateDifficulty(difficulty: number): SettingsState {
   const state = loadSettings();
   state.difficulty = Math.max(1, Math.min(5, Math.round(difficulty)));
+  saveState(state);
+  return state;
+}
+
+export function updateDailyGp(dailyGp: number): SettingsState {
+  const state = loadSettings();
+  state.dailyGp = (DAILY_GP_OPTIONS as readonly number[]).includes(dailyGp)
+    ? dailyGp
+    : DEFAULT_DAILY_GP;
   saveState(state);
   return state;
 }

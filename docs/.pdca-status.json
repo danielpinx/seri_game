@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-02-21T01:35:27.464Z",
+  "lastUpdated": "2026-02-21T03:00:05.265Z",
   "activeFeatures": [
     "config",
     "engine",
@@ -60,7 +60,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-08T01:32:53.449Z",
-        "lastUpdated": "2026-02-21T01:05:30.736Z"
+        "lastUpdated": "2026-02-21T02:55:47.225Z"
       },
       "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/config/constants.ts"
     },
@@ -86,9 +86,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-08T01:33:19.090Z",
-        "lastUpdated": "2026-02-21T01:05:39.861Z"
+        "lastUpdated": "2026-02-21T03:00:05.264Z"
       },
-      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/lib/settings.ts"
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/lib/gp.ts"
     },
     "store": {
       "phase": "do",
@@ -99,9 +99,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-08T01:33:22.543Z",
-        "lastUpdated": "2026-02-21T01:05:46.976Z"
+        "lastUpdated": "2026-02-21T02:56:19.172Z"
       },
-      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/store/useSettingsStore.ts"
+      "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/store/useGpStore.ts"
     },
     "pong": {
       "phase": "do",
@@ -138,7 +138,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-08T01:34:05.876Z",
-        "lastUpdated": "2026-02-21T01:35:27.464Z"
+        "lastUpdated": "2026-02-21T02:57:04.175Z"
       },
       "lastFile": "/Users/daniel/Desktop/seri_game/portal/src/components/layout/SettingsModal.tsx"
     },
@@ -476,7 +476,7 @@
   "session": {
     "startedAt": "2026-02-08T01:11:35.112Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-02-21T01:35:27.464Z"
+    "lastActivity": "2026-02-21T03:00:05.265Z"
   },
   "history": [
     {
@@ -1778,6 +1778,138 @@
     {
       "timestamp": "2026-02-21T01:35:27.464Z",
       "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:49:00.689Z",
+      "feature": "config",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:49:37.050Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:49:41.210Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:51:49.566Z",
+      "feature": "config",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:51:57.842Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:52:01.952Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:52:09.665Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:55:47.225Z",
+      "feature": "config",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:55:52.901Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:55:56.888Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:01.304Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:12.315Z",
+      "feature": "store",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:19.172Z",
+      "feature": "store",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:26.273Z",
+      "feature": "portal",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:31.588Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:35.116Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:39.166Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:43.803Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:47.989Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:56:53.427Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T02:57:04.175Z",
+      "feature": "layout",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-21T03:00:05.264Z",
+      "feature": "portal",
       "phase": "do",
       "action": "updated"
     }

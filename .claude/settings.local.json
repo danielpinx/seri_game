@@ -44,7 +44,10 @@
       "Bash(gh release create:*)",
       "Bash(git stash:*)",
       "Bash(git stash pop:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(tail:*)",
+      "Bash(vercel:*)",
+      "Bash(rm -rf /Users/daniel/Desktop/seri_game/portal/.vercel && cd /Users/daniel/Desktop/seri_game && vercel --prod 2>&12)"
     ]
   }
 }

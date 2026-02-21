@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useSettingsStore } from "@/store/useSettingsStore";
-import { AVATAR_OPTIONS, DIFFICULTY_LABELS } from "@/config/constants";
+import { useGpStore } from "@/store/useGpStore";
+import { AVATAR_OPTIONS, DIFFICULTY_LABELS, DAILY_GP_OPTIONS } from "@/config/constants";
 
 interface SettingsModalProps {
   open: boolean;
@@ -11,8 +12,9 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ open, onClose }: SettingsModalProps) {
-  const { nickname, avatar, difficulty, setNickname, setAvatar, setDifficulty } =
+  const { nickname, avatar, difficulty, dailyGp, setNickname, setAvatar, setDifficulty, setDailyGp } =
     useSettingsStore();
+  const { refreshBalance } = useGpStore();
   const [localNickname, setLocalNickname] = useState(nickname);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +68,8 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
             <label className="text-text-secondary text-[11px] uppercase tracking-wider font-medium mb-2 block">
               Avatar
             </label>
-            <div className="grid grid-cols-5 gap-2">
+            <div className="max-h-[240px] overflow-y-auto rounded-lg pr-1">
+              <div className="grid grid-cols-5 gap-2">
               {AVATAR_OPTIONS.map((av) => (
                 <button
                   key={av}
@@ -93,6 +96,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
                   )}
                 </button>
               ))}
+              </div>
             </div>
           </div>
 
@@ -116,7 +120,7 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
           </div>
 
           {/* Difficulty */}
-          <div>
+          <div className="mb-5">
             <label className="text-text-secondary text-[11px] uppercase tracking-wider font-medium mb-2 block">
               Difficulty
             </label>
@@ -152,6 +156,32 @@ export function SettingsModal({ open, onClose }: SettingsModalProps) {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Daily GP */}
+          <div>
+            <label className="text-text-secondary text-[11px] uppercase tracking-wider font-medium mb-2 block">
+              Daily Game Points
+            </label>
+            <div className="flex gap-2 flex-wrap">
+              {DAILY_GP_OPTIONS.map((gp) => (
+                <button
+                  key={gp}
+                  onClick={() => {
+                    setDailyGp(gp);
+                    refreshBalance();
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                    dailyGp === gp
+                      ? "bg-accent text-white shadow-[0_0_10px_rgba(108,92,231,0.4)]"
+                      : "bg-bg-primary border border-border text-text-secondary hover:border-text-muted"
+                  }`}
+                >
+                  {gp}
+                </button>
+              ))}
+            </div>
+            <p className="text-text-muted text-[9px] mt-1.5">Resets your balance immediately</p>
           </div>
         </div>
       </div>
