@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 /* ------------------------------------------------------------------ */
 /*  CONFIG                                                             */
@@ -71,6 +73,10 @@ interface Particle {
 /*  GAME                                                               */
 /* ------------------------------------------------------------------ */
 export class RhythmGame extends BaseGame {
+  private _noteSpeed = 0.5;
+  private _perfectWindow = 40;
+  private _maxHp = 10;
+
   /* state */
   private notes: Note[] = [];
   private judgments: JudgmentFx[] = [];
@@ -110,13 +116,18 @@ export class RhythmGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._noteSpeed = diffValue(d, 0.35, 0.5, 0.7);
+    this._perfectWindow = Math.round(diffValue(d, 55, 40, 28));
+    this._maxHp = Math.round(diffValue(d, 14, 10, 7));
+
     this.notes = [];
     this.judgments = [];
     this.particles = [];
     this.elapsed = 0;
     this.combo = 0;
     this.maxCombo = 0;
-    this.hp = MAX_HP;
+    this.hp = this._maxHp;
     this.level = 1;
     this.nextLevelAt = LEVEL_UP_INTERVAL;
     this.nextNoteTime = 1000; // 1s grace period
@@ -141,7 +152,7 @@ export class RhythmGame extends BaseGame {
 
     // Move notes
     for (const n of this.notes) {
-      n.y += NOTE_SPEED * dt;
+      n.y += this._noteSpeed * dt;
     }
 
     // Check input
@@ -154,7 +165,7 @@ export class RhythmGame extends BaseGame {
 
     // Check misses (notes past hit zone)
     for (const n of this.notes) {
-      if (!n.hit && n.y > HIT_Y + GOOD_WINDOW * NOTE_SPEED + NOTE_H) {
+      if (!n.hit && n.y > HIT_Y + GOOD_WINDOW * this._noteSpeed + NOTE_H) {
         n.hit = true;
         this.onMiss(n.lane);
       }
@@ -254,7 +265,7 @@ export class RhythmGame extends BaseGame {
   private spawnNote(lane: number, time: number): void {
     // time = when the note should appear at the top of screen
     // Adjust y for any slight delay between scheduled time and actual spawn
-    const y = NOTE_SPAWN_Y + (this.elapsed - time) * NOTE_SPEED;
+    const y = NOTE_SPAWN_Y + (this.elapsed - time) * this._noteSpeed;
     this.notes.push({ lane, spawnTime: time, y, hit: false });
   }
 
@@ -268,7 +279,7 @@ export class RhythmGame extends BaseGame {
       if (n.hit || n.lane !== lane) continue;
       const dist = Math.abs(n.y - HIT_Y);
       // Convert pixel distance to time distance
-      const timeDist = dist / NOTE_SPEED;
+      const timeDist = dist / this._noteSpeed;
       if (timeDist <= GOOD_WINDOW && dist < bestDist) {
         best = n;
         bestDist = dist;
@@ -278,11 +289,11 @@ export class RhythmGame extends BaseGame {
     if (!best) return; // no note to hit
 
     best.hit = true;
-    const timeDist = bestDist / NOTE_SPEED;
+    const timeDist = bestDist / this._noteSpeed;
 
     const laneX = LANE_X0 + lane * LANE_W + LANE_W / 2;
 
-    if (timeDist <= PERFECT_WINDOW) {
+    if (timeDist <= this._perfectWindow) {
       this.onPerfect(lane, laneX);
     } else {
       this.onGood(lane, laneX);
@@ -298,7 +309,7 @@ export class RhythmGame extends BaseGame {
     if (this.combo > this.maxCombo) this.maxCombo = this.combo;
     const pts = Math.round(PERFECT_SCORE * this.multiplier);
     this.setScore(this.score + pts);
-    this.hp = Math.min(MAX_HP, this.hp + HP_PERFECT_HEAL);
+    this.hp = Math.min(this._maxHp, this.hp + HP_PERFECT_HEAL);
     this.spawnJudgment("PERFECT!", LANE_COLORS[lane], x);
     this.spawnParticles(x, HIT_Y, LANE_COLORS[lane]);
   }
@@ -542,7 +553,7 @@ export class RhythmGame extends BaseGame {
     ctx.fill();
 
     // Fill
-    const hpFrac = this.hp / MAX_HP;
+    const hpFrac = this.hp / this._maxHp;
     const hpColor = hpFrac > 0.5 ? "#00d4ff" : hpFrac > 0.25 ? "#ffd700" : "#ff2e97";
     ctx.fillStyle = hpColor;
     ctx.shadowColor = hpColor;

@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 /* ---------- constants ---------- */
 
@@ -120,6 +122,10 @@ function lerpColor(a: string, b: string, t: number): string {
 /* ---------- TypingGame ---------- */
 
 export class TypingGame extends BaseGame {
+  private _baseLives = 3;
+  private _spawnMul = 1;
+  private _speedMul = 1;
+
   /* state */
   private words: FallingWord[] = [];
   private particles: ExplodeParticle[] = [];
@@ -160,10 +166,15 @@ export class TypingGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._baseLives = Math.round(diffValue(d, 5, 3, 2));
+    this._spawnMul = diffValue(d, 1.4, 1, 0.6);
+    this._speedMul = diffValue(d, 0.7, 1, 1.4);
+
     this.words = [];
     this.particles = [];
     this.currentInput = "";
-    this.lives = 3;
+    this.lives = this._baseLives;
     this.level = 1;
     this.combo = 0;
     this.maxCombo = 0;
@@ -178,8 +189,8 @@ export class TypingGame extends BaseGame {
 
   private recalcDifficulty(): void {
     const lvl = this.level;
-    this.spawnInterval = Math.max(700, 2500 - (lvl - 1) * 200);
-    this.baseSpeed = 30 + (lvl - 1) * 8;
+    this.spawnInterval = Math.max(700, 2500 - (lvl - 1) * 200) * this._spawnMul;
+    this.baseSpeed = (30 + (lvl - 1) * 8) * this._speedMul;
     this.speedVariance = 15 + (lvl - 1) * 4;
     this.maxWordsOnScreen = Math.min(12, 6 + Math.floor((lvl - 1) / 2));
     this.minWordLen = 3;

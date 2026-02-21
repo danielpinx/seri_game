@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 1280;
 const HEIGHT = 800;
@@ -24,6 +26,10 @@ const MAGENTA = "#ff2e97";
 const BALL_COLOR = "#ffffff";
 
 export class PongGame extends BaseGame {
+  private _ballSpeed = 15;
+  private _paddleH = 110;
+  private _paddleSpeed = 7;
+
   private ballX = 0;
   private ballY = 0;
   private ballSpeedX = BALL_SPEED;
@@ -56,8 +62,13 @@ export class PongGame extends BaseGame {
   }
 
   private resetState(): void {
-    this.playerY = HEIGHT / 2 - PADDLE_H / 2;
-    this.cpuY = HEIGHT / 2 - PADDLE_H / 2;
+    const d = useSettingsStore.getState().difficulty;
+    this._ballSpeed = diffValue(d, 10, 15, 22);
+    this._paddleH = Math.round(diffValue(d, 140, 110, 80));
+    this._paddleSpeed = diffValue(d, 9, 7, 5);
+
+    this.playerY = HEIGHT / 2 - this._paddleH / 2;
+    this.cpuY = HEIGHT / 2 - this._paddleH / 2;
     this.cpuTargetY = HEIGHT / 2;
     this.playerSpeed = 0;
     this.cpuScore = 0;
@@ -75,8 +86,8 @@ export class PongGame extends BaseGame {
     this.trail = [];
     const angle = (Math.random() - 0.5) * 1.2;
     const dir = Math.random() > 0.5 ? 1 : -1;
-    this.ballSpeedX = BALL_SPEED * dir * Math.cos(angle);
-    this.ballSpeedY = BALL_SPEED * Math.sin(angle);
+    this.ballSpeedX = this._ballSpeed * dir * Math.cos(angle);
+    this.ballSpeedY = this._ballSpeed * Math.sin(angle);
   }
 
   update(dt: number): void {
@@ -85,9 +96,9 @@ export class PongGame extends BaseGame {
 
     // Player input
     if (this.input.isKeyDown("ArrowUp")) {
-      this.playerSpeed = -PADDLE_SPEED;
+      this.playerSpeed = -this._paddleSpeed;
     } else if (this.input.isKeyDown("ArrowDown")) {
-      this.playerSpeed = PADDLE_SPEED;
+      this.playerSpeed = this._paddleSpeed;
     } else {
       this.playerSpeed = 0;
     }
@@ -146,10 +157,10 @@ export class PongGame extends BaseGame {
       this.ballX + BALL_SIZE >= playerPaddleX &&
       this.ballX < playerPaddleX + PADDLE_W &&
       this.ballY + BALL_SIZE > this.playerY &&
-      this.ballY < this.playerY + PADDLE_H
+      this.ballY < this.playerY + this._paddleH
     ) {
       this.ballX = playerPaddleX - BALL_SIZE;
-      const hitPos = (this.ballY + BALL_SIZE / 2 - this.playerY) / PADDLE_H;
+      const hitPos = (this.ballY + BALL_SIZE / 2 - this.playerY) / this._paddleH;
       const angle = (hitPos - 0.5) * 1.4;
       const speed = Math.sqrt(this.ballSpeedX ** 2 + this.ballSpeedY ** 2) + 0.3;
       this.ballSpeedX = -speed * Math.cos(angle);
@@ -162,10 +173,10 @@ export class PongGame extends BaseGame {
       this.ballX <= cpuPaddleX + PADDLE_W &&
       this.ballX + BALL_SIZE > cpuPaddleX &&
       this.ballY + BALL_SIZE > this.cpuY &&
-      this.ballY < this.cpuY + PADDLE_H
+      this.ballY < this.cpuY + this._paddleH
     ) {
       this.ballX = cpuPaddleX + PADDLE_W;
-      const hitPos = (this.ballY + BALL_SIZE / 2 - this.cpuY) / PADDLE_H;
+      const hitPos = (this.ballY + BALL_SIZE / 2 - this.cpuY) / this._paddleH;
       const angle = (hitPos - 0.5) * 1.4;
       const speed = Math.sqrt(this.ballSpeedX ** 2 + this.ballSpeedY ** 2) + 0.3;
       this.ballSpeedX = speed * Math.cos(angle);
@@ -175,24 +186,24 @@ export class PongGame extends BaseGame {
     // Move player
     this.playerY += this.playerSpeed;
     if (this.playerY < 0) this.playerY = 0;
-    if (this.playerY + PADDLE_H > HEIGHT) this.playerY = HEIGHT - PADDLE_H;
+    if (this.playerY + this._paddleH > HEIGHT) this.playerY = HEIGHT - this._paddleH;
 
     // CPU AI - imperfect tracking with reaction delay
     this.cpuReactionTimer += dt;
     if (this.cpuReactionTimer >= 150) {
       this.cpuReactionTimer = 0;
       const ballCenterY = this.ballY + BALL_SIZE / 2;
-      this.cpuTargetY = ballCenterY + (Math.random() - 0.5) * 60 - PADDLE_H / 2;
+      this.cpuTargetY = ballCenterY + (Math.random() - 0.5) * 60 - this._paddleH / 2;
     }
-    const cpuCenter = this.cpuY + PADDLE_H / 2;
-    const targetCenter = this.cpuTargetY + PADDLE_H / 2;
+    const cpuCenter = this.cpuY + this._paddleH / 2;
+    const targetCenter = this.cpuTargetY + this._paddleH / 2;
     const diff = targetCenter - cpuCenter;
-    const cpuMoveSpeed = PADDLE_SPEED * 0.85;
+    const cpuMoveSpeed = this._paddleSpeed * 0.85;
     if (Math.abs(diff) > 4) {
       this.cpuY += diff > 0 ? cpuMoveSpeed : -cpuMoveSpeed;
     }
     if (this.cpuY < 0) this.cpuY = 0;
-    if (this.cpuY + PADDLE_H > HEIGHT) this.cpuY = HEIGHT - PADDLE_H;
+    if (this.cpuY + this._paddleH > HEIGHT) this.cpuY = HEIGHT - this._paddleH;
   }
 
   draw(): void {
@@ -250,7 +261,7 @@ export class PongGame extends BaseGame {
     ctx.shadowBlur = 15;
     ctx.fillStyle = CYAN;
     ctx.beginPath();
-    ctx.roundRect(cpuPaddleX, this.cpuY, PADDLE_W, PADDLE_H, 7);
+    ctx.roundRect(cpuPaddleX, this.cpuY, PADDLE_W, this._paddleH, 7);
     ctx.fill();
 
     // Player paddle (right) - Magenta
@@ -259,7 +270,7 @@ export class PongGame extends BaseGame {
     ctx.shadowBlur = 15;
     ctx.fillStyle = MAGENTA;
     ctx.beginPath();
-    ctx.roundRect(playerPaddleX, this.playerY, PADDLE_W, PADDLE_H, 7);
+    ctx.roundRect(playerPaddleX, this.playerY, PADDLE_W, this._paddleH, 7);
     ctx.fill();
 
     ctx.shadowBlur = 0;

@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Config ──────────────────────────────────────────────────────────
 const W = 480;
@@ -223,6 +225,8 @@ export class HangmanGame extends BaseGame {
   // Keyboard button rects (computed once)
   private keyRects: Map<string, { x: number; y: number; w: number; h: number }> = new Map();
 
+  private _maxWrong = 6;
+
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(
       canvas,
@@ -232,11 +236,15 @@ export class HangmanGame extends BaseGame {
   }
 
   init(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._maxWrong = Math.round(diffValue(d, 9, 6, 4));
     this.computeKeyboardRects();
     this.resetRound();
   }
 
   reset(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._maxWrong = Math.round(diffValue(d, 9, 6, 4));
     this.totalScore = 0;
     this.setScore(0);
     this.resetRound();
@@ -342,7 +350,7 @@ export class HangmanGame extends BaseGame {
         this.roundOver = true;
         this.roundEndTime = now;
         this.winFlashStart = now;
-        const roundScore = (MAX_WRONG + 1 - this.wrongGuesses) * 100;
+        const roundScore = (this._maxWrong + 1 - this.wrongGuesses) * 100;
         this.totalScore += roundScore;
         this.setScore(this.totalScore);
       }
@@ -356,7 +364,7 @@ export class HangmanGame extends BaseGame {
       this.wrongGuesses++;
 
       // Check for loss
-      if (this.wrongGuesses >= MAX_WRONG) {
+      if (this.wrongGuesses >= this._maxWrong) {
         this.roundOver = true;
         this.roundEndTime = now;
         // Reveal all letters
@@ -644,7 +652,7 @@ export class HangmanGame extends BaseGame {
     ctx.textBaseline = "middle";
 
     if (this.roundWon) {
-      const roundScore = (MAX_WRONG + 1 - this.wrongGuesses) * 100;
+      const roundScore = (this._maxWrong + 1 - this.wrongGuesses) * 100;
       ctx.font = "bold 20px Inter, sans-serif";
       ctx.shadowColor = NEON_GREEN;
       ctx.shadowBlur = 12;

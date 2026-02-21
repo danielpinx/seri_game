@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const W = 620, H = 680, BG = "#0a0c1a";
 const COLS = 7, ROWS = 6;
@@ -32,6 +34,7 @@ export class Connect4Game extends BaseGame {
   private cpuDelay = 0;
   private best = 0;
   private pm = false;
+  private _aiDepth = 5;
 
   constructor(canvas: HTMLCanvasElement, cb: GameCallbacks) { super(canvas, CONFIG, cb); }
 
@@ -43,6 +46,8 @@ export class Connect4Game extends BaseGame {
   reset(): void { this.resetState(); }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._aiDepth = Math.round(diffValue(d, 2, 5, 7));
     this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(EMPTY));
     this.turn = PLAYER;
     this.won = 0;
@@ -148,7 +153,7 @@ export class Connect4Game extends BaseGame {
       const r = this.getRow(c);
       if (r < 0) continue;
       this.grid[r][c] = CPU;
-      const score = this.minimax(5, -Infinity, Infinity, false);
+      const score = this.minimax(this._aiDepth, -Infinity, Infinity, false);
       this.grid[r][c] = EMPTY;
       if (score > bestScore) { bestScore = score; bestCol = c; }
     }

@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Config ──────────────────────────────────────────────────────────
 const W = 480;
@@ -156,6 +158,8 @@ export class WordleGame extends BaseGame {
   // Keyboard button rects (computed once)
   private keyRects: Map<string, { x: number; y: number; w: number; h: number }> = new Map();
 
+  private _rows = 6;
+
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(
       canvas,
@@ -176,7 +180,9 @@ export class WordleGame extends BaseGame {
   }
 
   private resetBoard(): void {
-    this.board = Array.from({ length: ROWS }, () =>
+    const d = useSettingsStore.getState().difficulty;
+    this._rows = Math.round(diffValue(d, 8, 6, 5));
+    this.board = Array.from({ length: this._rows }, () =>
       Array.from({ length: COLS }, () => ({ letter: "", color: "" }))
     );
     this.currentRow = 0;
@@ -357,7 +363,7 @@ export class WordleGame extends BaseGame {
     this.currentCol = 0;
 
     // Check loss
-    if (this.currentRow >= ROWS) {
+    if (this.currentRow >= this._rows) {
       this.roundOver = true;
       this.roundEndTime = now;
       this.showMessage(this.answer, now);
@@ -412,7 +418,7 @@ export class WordleGame extends BaseGame {
     ctx.fillText("WORDLE", W / 2, 38);
 
     // ── Tile grid ─────────────────────────────────────────────────
-    for (let r = 0; r < ROWS; r++) {
+    for (let r = 0; r < this._rows; r++) {
       // Shake offset
       let shakeOff = 0;
       if (this.shakeRow === r && now - this.shakeStart < 400) {

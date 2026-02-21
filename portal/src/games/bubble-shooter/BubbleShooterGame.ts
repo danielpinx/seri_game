@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Canvas & Layout ──────────────────────────────────────────────────
 const WIDTH = 480;
@@ -110,6 +112,7 @@ export class BubbleShooterGame extends BaseGame {
   private ceilingDropRows = 0;
 
   private running = true;
+  private _shootSpeed = 12;
 
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(canvas, CONFIG, callbacks);
@@ -125,6 +128,8 @@ export class BubbleShooterGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._shootSpeed = Math.round(diffValue(d, 10, 12, 15));
     this.grid = [];
     for (let r = 0; r < this.maxRows; r++) {
       const cols = maxColsForRow(r);
@@ -229,8 +234,8 @@ export class BubbleShooterGame extends BaseGame {
       this.flyingBubble = {
         x: SHOOTER_X,
         y: SHOOTER_Y,
-        vx: Math.cos(this.aimAngle) * SHOOT_SPEED,
-        vy: -Math.sin(this.aimAngle) * SHOOT_SPEED,
+        vx: Math.cos(this.aimAngle) * this._shootSpeed,
+        vy: -Math.sin(this.aimAngle) * this._shootSpeed,
         colorIdx: this.currentColor,
       };
       this.advanceColor();

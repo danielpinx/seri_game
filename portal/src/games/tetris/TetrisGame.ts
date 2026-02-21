@@ -1,6 +1,8 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
 import { BLOCKS, COLORS, type BlockDef, type Pos } from "./blocks";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const ROWS = 20;
 const COLS = 10;
@@ -29,6 +31,7 @@ interface ActiveBlock {
 }
 
 export class TetrisGame extends BaseGame {
+  private _dropInterval = 215;
   private grid: number[][] = [];
   private current!: ActiveBlock;
   private next!: ActiveBlock;
@@ -67,6 +70,9 @@ export class TetrisGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._dropInterval = Math.round(diffValue(d, 350, 215, 120));
+
     this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
     this.bag = [];
     this.current = this.spawnBlock();
@@ -208,7 +214,7 @@ export class TetrisGame extends BaseGame {
       return;
     }
 
-    const speed = Math.max(DROP_INTERVAL - (this.level - 1) * 15, 80);
+    const speed = Math.max(this._dropInterval - (this.level - 1) * 15, 80);
     this.dropTimer += dt;
     if (this.dropTimer >= speed) {
       this.dropTimer -= speed;

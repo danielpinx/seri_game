@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const W = 640, H = 700, BG = "#0a0c14";
 const BOARD = 8;
@@ -38,6 +40,7 @@ export class CheckersGame extends BaseGame {
   private multiJumpPiece: Pos | null = null; // for forced multi-jumps
   private statusText = "Your Turn";
   private totalScore = 0;
+  private _baseDepth = 4;
 
   constructor(canvas: HTMLCanvasElement, cb: GameCallbacks) { super(canvas, CONFIG, cb); }
 
@@ -45,6 +48,8 @@ export class CheckersGame extends BaseGame {
   reset(): void { this.resetBoard(); }
 
   private resetBoard(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._baseDepth = Math.round(diffValue(d, 2, 4, 6));
     this.board = Array.from({ length: BOARD }, () => Array(BOARD).fill(EMPTY));
     // AI pieces on rows 0-2 (top)
     for (let r = 0; r < 3; r++)
@@ -261,7 +266,7 @@ export class CheckersGame extends BaseGame {
       for (let c = 0; c < BOARD; c++)
         if (this.board[r][c] !== EMPTY) totalPieces++;
 
-    const depth = totalPieces <= 8 ? 6 : totalPieces <= 12 ? 5 : 4;
+    const depth = totalPieces <= 8 ? this._baseDepth + 2 : totalPieces <= 12 ? this._baseDepth + 1 : this._baseDepth;
 
     let bestScore = -Infinity;
     let bestMove = moves[0];

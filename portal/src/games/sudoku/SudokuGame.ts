@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Config ──────────────────────────────────────────────────────────
 const W = 540;
@@ -61,6 +63,8 @@ export class SudokuGame extends BaseGame {
   // Mouse tracking
   private wasMouseDown = false;
 
+  private _removeCount = 40;
+
   constructor(canvas: HTMLCanvasElement, cb: GameCallbacks) {
     super(canvas, CONFIG, cb);
   }
@@ -74,12 +78,14 @@ export class SudokuGame extends BaseGame {
   }
 
   private newGame(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._removeCount = Math.round(diffValue(d, 28, 40, 52));
     this.solution = this.generateSolution();
     this.puzzle = this.solution.map(r => [...r]);
     this.fixed = Array.from({ length: 9 }, () => Array(9).fill(true));
     this.player = Array.from({ length: 9 }, () => Array(9).fill(0));
 
-    this.removeClues(REMOVE_COUNT);
+    this.removeClues(this._removeCount);
 
     this.selRow = -1;
     this.selCol = -1;

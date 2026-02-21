@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 640;
 const HEIGHT = 740;
@@ -59,6 +61,9 @@ interface Ghost {
 }
 
 export class PacManGame extends BaseGame {
+  private _ghostSpeed = 4.5;
+  private _scaredMs = 7000;
+
   private pCol = PAC_COL;
   private pRow = PAC_ROW;
   private pDir = 2;
@@ -124,6 +129,10 @@ export class PacManGame extends BaseGame {
   }
 
   private resetFull(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._ghostSpeed = diffValue(d, 3.5, 4.5, 5.5);
+    this._scaredMs = Math.round(diffValue(d, 9000, 7000, 5000));
+
     this.initDots();
     this.lives = 3;
     this.setScore(0);
@@ -189,7 +198,7 @@ export class PacManGame extends BaseGame {
         if (this.pows[this.pRow]?.[this.pCol]) {
           this.pows[this.pRow][this.pCol] = false;
           this.addPts(50); this.eaten++;
-          this.scaredT = SCARED_MS; this.eatMul = 0;
+          this.scaredT = this._scaredMs; this.eatMul = 0;
           for (const g of this.ghosts) if (!g.eaten) g.scared = true;
         }
         if (this.eaten >= this.totalDots) { this.nextLevel(); return; }
@@ -213,7 +222,7 @@ export class PacManGame extends BaseGame {
       // Eaten ghost returning
       if (g.eaten) { g.wait -= dt; if (g.wait <= 0) { g.eaten = false; g.col = 9; g.row = 7; g.dir = 2; g.progress = 0; } continue; }
 
-      const spd = g.scared ? SCARED_SPEED : GHOST_SPEED;
+      const spd = g.scared ? SCARED_SPEED : this._ghostSpeed;
       g.progress += spd * ds;
       if (g.progress >= 1) {
         g.col = this.wrapC(g.col + DX[g.dir]);

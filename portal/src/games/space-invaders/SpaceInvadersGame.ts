@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 800;
 const HEIGHT = 800;
@@ -70,6 +72,8 @@ const OBSTACLE_GRID = [
 ];
 
 export class SpaceInvadersGame extends BaseGame {
+  private _diffMul = 1;
+
   // Ship
   private shipX = 0;
   private shipW = 48;
@@ -139,6 +143,12 @@ export class SpaceInvadersGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._diffMul = diffValue(d, 0.7, 1, 1.4);
+    this.shipSpeed = diffValue(d, 8, 6, 5);
+    this.lives = Math.round(diffValue(d, 5, 3, 2));
+    this.laserDelay = Math.round(diffValue(d, 180, 250, 350));
+
     this.shipX = WIDTH / 2 - this.shipW / 2;
     this.playerLasers = [];
     this.alienLasers = [];
@@ -146,11 +156,10 @@ export class SpaceInvadersGame extends BaseGame {
     this.laserTimer = 0;
     this.alienDir = 1;
     this.alienShootTimer = 0;
-    this.alienMoveSpeed = 1 + (this.level - 1) * 0.2;
+    this.alienMoveSpeed = (1 + (this.level - 1) * 0.2) * this._diffMul;
     this.mystery = null;
     this.mysteryTimer = 0;
     this.mysteryInterval = 4000 + Math.random() * 4000;
-    this.lives = 3;
     this.running = true;
     this.setScore(0);
     this.createAliens();
@@ -159,7 +168,7 @@ export class SpaceInvadersGame extends BaseGame {
 
   private nextLevel(): void {
     this.level++;
-    this.alienMoveSpeed = 1 + (this.level - 1) * 0.2;
+    this.alienMoveSpeed = (1 + (this.level - 1) * 0.2) * this._diffMul;
     this.playerLasers = [];
     this.alienLasers = [];
     this.mystery = null;

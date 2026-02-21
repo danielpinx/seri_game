@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 560;
 const HEIGHT = 640;
@@ -101,11 +103,15 @@ export class MemoryMatchGame extends BaseGame {
   private levelTransition = 0;       // timer ms, counts down
   private levelTransitionText = "";
 
+  private _flipMul = 1;
+
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(canvas, CONFIG, callbacks);
   }
 
   init(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._flipMul = diffValue(d, 1.4, 1, 0.7);
     this.level = 0;
     this.setScore(0);
     this.moves = 0;
@@ -115,6 +121,8 @@ export class MemoryMatchGame extends BaseGame {
   }
 
   reset(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._flipMul = diffValue(d, 1.4, 1, 0.7);
     this.level = 0;
     this.setScore(0);
     this.moves = 0;
@@ -131,6 +139,7 @@ export class MemoryMatchGame extends BaseGame {
     this.cols = def.cols;
     this.rows = def.rows;
     this.flipBackMs = def.flipBackMs;
+    this.flipBackMs = Math.round(this.flipBackMs * this._flipMul);
 
     const totalCards = this.cols * this.rows;
     this.pairsInLevel = totalCards / 2;

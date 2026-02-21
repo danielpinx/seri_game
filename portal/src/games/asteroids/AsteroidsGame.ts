@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 800;
 const HEIGHT = 800;
@@ -56,6 +58,9 @@ const SIZE_RADIUS = { 3: 40, 2: 22, 1: 12 };
 const SIZE_POINTS = { 3: 20, 2: 50, 1: 100 };
 
 export class AsteroidsGame extends BaseGame {
+  private _asteroidSpeed = 1.5;
+  private _fireCooldownMax = 150;
+
   private shipX = 0;
   private shipY = 0;
   private shipAngle = 0;
@@ -114,6 +119,10 @@ export class AsteroidsGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._asteroidSpeed = diffValue(d, 1.0, 1.5, 2.2);
+    this._fireCooldownMax = Math.round(diffValue(d, 100, 150, 220));
+
     this.shipX = WIDTH / 2;
     this.shipY = HEIGHT / 2;
     this.shipAngle = -Math.PI / 2;
@@ -145,7 +154,7 @@ export class AsteroidsGame extends BaseGame {
 
   private createAsteroid(x: number, y: number, size: number): Asteroid {
     const angle = Math.random() * Math.PI * 2;
-    const speed = ASTEROID_SPEED * (1 + Math.random() * 0.5) * (4 - size) * 0.5;
+    const speed = this._asteroidSpeed * (1 + Math.random() * 0.5) * (4 - size) * 0.5;
     const radius = SIZE_RADIUS[size as 1 | 2 | 3];
     const verts: number[] = [];
     const numVerts = 8 + Math.floor(Math.random() * 5);
@@ -246,7 +255,7 @@ export class AsteroidsGame extends BaseGame {
 
     // Shoot
     if (this.input.isKeyJustPressed("Space") && this.fireCooldown <= 0) {
-      this.fireCooldown = FIRE_COOLDOWN;
+      this.fireCooldown = this._fireCooldownMax;
       this.bullets.push({
         x: this.shipX + Math.cos(this.shipAngle) * SHIP_SIZE,
         y: this.shipY + Math.sin(this.shipAngle) * SHIP_SIZE,

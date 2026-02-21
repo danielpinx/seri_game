@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const W = 760, H = 680, BG = "#080816";
 const GCOLS = 20, GROWS = 14, CELL = 36;
@@ -47,6 +49,10 @@ export class TowerDefenseGame extends BaseGame {
   private waveDelay = 0;
   private best = 0;
   private pm = false;
+  private _initLives = 20;
+  private _initGold = 100;
+  private _hpMul = 1;
+  private _spdMul = 1;
 
   constructor(canvas: HTMLCanvasElement, cb: GameCallbacks) { super(canvas, CONFIG, cb); }
 
@@ -73,8 +79,13 @@ export class TowerDefenseGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._initLives = Math.round(diffValue(d, 30, 20, 12));
+    this._initGold = Math.round(diffValue(d, 150, 100, 70));
+    this._hpMul = diffValue(d, 0.7, 1, 1.4);
+    this._spdMul = diffValue(d, 0.8, 1, 1.2);
     this.towers = []; this.enemies = []; this.projs = [];
-    this.sel = -1; this.lives = 20; this.gold = 100;
+    this.sel = -1; this.lives = this._initLives; this.gold = this._initGold;
     this.wave = 0; this.waveActive = false;
     this.spawnQ = []; this.waveDelay = 2000;
     this.setScore(0);
@@ -104,8 +115,8 @@ export class TowerDefenseGame extends BaseGame {
     const mul = 1 + (this.wave - 1) * 0.15;
     this.enemies.push({
       x: PP[0][0], y: PP[0][1],
-      hp: s.hp * mul, mhp: s.hp * mul,
-      speed: s.speed, seg: 0, type, reward: s.reward, slow: 0,
+      hp: Math.round(s.hp * mul * this._hpMul), mhp: Math.round(s.hp * mul * this._hpMul),
+      speed: s.speed * this._spdMul, seg: 0, type, reward: s.reward, slow: 0,
     });
   }
 

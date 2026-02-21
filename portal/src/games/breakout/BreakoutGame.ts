@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 900;
 const HEIGHT = 640;
@@ -58,6 +60,9 @@ interface Particle {
 }
 
 export class BreakoutGame extends BaseGame {
+  private _ballSpeed = 10;
+  private _paddleW = 120;
+
   private paddleX = 0;
 
   private ballX = 0;
@@ -103,7 +108,11 @@ export class BreakoutGame extends BaseGame {
   }
 
   private resetState(): void {
-    this.paddleX = WIDTH / 2 - PADDLE_W / 2;
+    const d = useSettingsStore.getState().difficulty;
+    this._ballSpeed = diffValue(d, 7, 10, 14);
+    this._paddleW = Math.round(diffValue(d, 150, 120, 90));
+
+    this.paddleX = WIDTH / 2 - this._paddleW / 2;
     this.ballLaunched = false;
     this.lives = 3;
     this.running = true;
@@ -125,7 +134,7 @@ export class BreakoutGame extends BaseGame {
 
   private launchBall(): void {
     const angle = (Math.random() - 0.5) * 1.2 - Math.PI / 2;
-    const speed = BALL_SPEED + (this.level - 1) * 0.5;
+    const speed = this._ballSpeed + (this.level - 1) * 0.5;
     this.ballVX = speed * Math.cos(angle);
     this.ballVY = speed * Math.sin(angle);
     this.ballLaunched = true;
@@ -195,12 +204,12 @@ export class BreakoutGame extends BaseGame {
     }
     if (this.input.isKeyDown("ArrowRight")) {
       this.paddleX += PADDLE_SPEED;
-      if (this.paddleX + PADDLE_W > WIDTH - 10) this.paddleX = WIDTH - 10 - PADDLE_W;
+      if (this.paddleX + this._paddleW > WIDTH - 10) this.paddleX = WIDTH - 10 - this._paddleW;
     }
 
     // Launch ball
     if (!this.ballLaunched) {
-      this.ballX = this.paddleX + PADDLE_W / 2;
+      this.ballX = this.paddleX + this._paddleW / 2;
       this.ballY = PADDLE_Y - BALL_R - 1;
       if (this.input.isKeyJustPressed("Space")) {
         this.launchBall();
@@ -245,10 +254,10 @@ export class BreakoutGame extends BaseGame {
       this.ballY + BALL_R >= PADDLE_Y &&
       this.ballY + BALL_R <= PADDLE_Y + PADDLE_H + 4 &&
       this.ballX >= this.paddleX - BALL_R &&
-      this.ballX <= this.paddleX + PADDLE_W + BALL_R
+      this.ballX <= this.paddleX + this._paddleW + BALL_R
     ) {
       this.ballY = PADDLE_Y - BALL_R;
-      const hitPos = (this.ballX - this.paddleX) / PADDLE_W;
+      const hitPos = (this.ballX - this.paddleX) / this._paddleW;
       const angle = (hitPos - 0.5) * 2.4 - Math.PI / 2;
       const speed = Math.sqrt(this.ballVX ** 2 + this.ballVY ** 2);
       this.ballVX = speed * Math.cos(angle);
@@ -335,12 +344,12 @@ export class BreakoutGame extends BaseGame {
     // Paddle
     ctx.shadowColor = "#6c5ce7";
     ctx.shadowBlur = 12;
-    const grad = ctx.createLinearGradient(this.paddleX, 0, this.paddleX + PADDLE_W, 0);
+    const grad = ctx.createLinearGradient(this.paddleX, 0, this.paddleX + this._paddleW, 0);
     grad.addColorStop(0, "#6c5ce7");
     grad.addColorStop(1, "#00d4ff");
     ctx.fillStyle = grad;
     ctx.beginPath();
-    ctx.roundRect(this.paddleX, PADDLE_Y, PADDLE_W, PADDLE_H, 7);
+    ctx.roundRect(this.paddleX, PADDLE_Y, this._paddleW, PADDLE_H, 7);
     ctx.fill();
     ctx.shadowBlur = 0;
 

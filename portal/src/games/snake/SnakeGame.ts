@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const CELL_SIZE = 28;
 const GRID = 25;
@@ -27,6 +29,7 @@ interface Vec2 {
 }
 
 export class SnakeGame extends BaseGame {
+  private _moveInterval = 130;
   private body: Vec2[] = [];
   private direction: Vec2 = { x: 1, y: 0 };
   private nextDirection: Vec2 = { x: 1, y: 0 };
@@ -65,6 +68,9 @@ export class SnakeGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._moveInterval = Math.round(diffValue(d, 180, 130, 80));
+
     this.body = [
       { x: 6, y: 12 },
       { x: 5, y: 12 },
@@ -111,8 +117,8 @@ export class SnakeGame extends BaseGame {
     if (!this.running) return;
 
     this.moveTimer += dt;
-    if (this.moveTimer < MOVE_INTERVAL) return;
-    this.moveTimer -= MOVE_INTERVAL;
+    if (this.moveTimer < this._moveInterval) return;
+    this.moveTimer -= this._moveInterval;
 
     this.direction = this.nextDirection;
 

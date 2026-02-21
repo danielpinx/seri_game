@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Config ─────────────────────────────────────
 const WIDTH = 480;
@@ -82,14 +84,6 @@ const BUTTON_DEFS: Array<{
   },
 ];
 
-// ── Speed tiers ────────────────────────────────
-function getShowTiming(round: number): { lightMs: number; gapMs: number } {
-  if (round <= 5) return { lightMs: 400, gapMs: 200 };
-  if (round <= 10) return { lightMs: 350, gapMs: 150 };
-  if (round <= 15) return { lightMs: 300, gapMs: 100 };
-  return { lightMs: 250, gapMs: 80 };
-}
-
 // ── Main class ─────────────────────────────────
 export class SimonSaysGame extends BaseGame {
   // Buttons (built once in init)
@@ -134,6 +128,8 @@ export class SimonSaysGame extends BaseGame {
   // Center circle animation
   private centerPulse = 0;
 
+  private _timingMul = 1;
+
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(canvas, CONFIG, callbacks);
   }
@@ -142,10 +138,14 @@ export class SimonSaysGame extends BaseGame {
 
   init(): void {
     this.buildButtons();
+    const d = useSettingsStore.getState().difficulty;
+    this._timingMul = diffValue(d, 1.4, 1, 0.7);
     this.resetGameState();
   }
 
   reset(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._timingMul = diffValue(d, 1.4, 1, 0.7);
     this.resetGameState();
   }
 
@@ -180,6 +180,18 @@ export class SimonSaysGame extends BaseGame {
     this.startNewRound();
   }
 
+  private getShowTiming(round: number): { lightMs: number; gapMs: number } {
+    let lightMs: number;
+    let gapMs: number;
+    if (round <= 5) { lightMs = 400; gapMs = 200; }
+    else if (round <= 10) { lightMs = 350; gapMs = 150; }
+    else if (round <= 15) { lightMs = 300; gapMs = 100; }
+    else { lightMs = 250; gapMs = 80; }
+    lightMs = Math.round(lightMs * this._timingMul);
+    gapMs = Math.round(gapMs * this._timingMul);
+    return { lightMs, gapMs };
+  }
+
   // ── Round management ───────────────────────────
 
   private startNewRound(): void {
@@ -190,7 +202,7 @@ export class SimonSaysGame extends BaseGame {
     this.showIndex = 0;
     this.showingLit = false;
     // Start with a brief gap before showing first light
-    const timing = getShowTiming(this.round);
+    const timing = this.getShowTiming(this.round);
     this.showTimer = timing.gapMs;
     this.showingLit = false;
     this.buttonLitTimers = [0, 0, 0, 0];
@@ -239,7 +251,7 @@ export class SimonSaysGame extends BaseGame {
       if (!this.showingLit) {
         // Start lighting up the current step
         if (this.showIndex < this.sequence.length) {
-          const timing = getShowTiming(this.round);
+          const timing = this.getShowTiming(this.round);
           this.showingLit = true;
           this.showTimer = timing.lightMs;
           // Light up the button
@@ -256,7 +268,7 @@ export class SimonSaysGame extends BaseGame {
           this.phase = "PLAYER_TURN";
           this.playerIndex = 0;
         } else {
-          const timing = getShowTiming(this.round);
+          const timing = this.getShowTiming(this.round);
           this.showTimer = timing.gapMs;
         }
       }

@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 // ── Canvas & Config ────────────────────────────────────────────────
 const W = 400;
@@ -117,6 +119,9 @@ const COL_MONSTER = "#ff6b9d";
 
 // ════════════════════════════════════════════════════════════════════
 export class DoodleJumpGame extends BaseGame {
+  private _monsterSpawnChance = 0.08;
+  private _platGapMax = 130;
+
   // Player state
   private px = 0;
   private py = 0;
@@ -157,6 +162,10 @@ export class DoodleJumpGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._monsterSpawnChance = diffValue(d, 0.04, 0.08, 0.14);
+    this._platGapMax = Math.round(diffValue(d, 100, 130, 170));
+
     this.px = W / 2;
     this.py = H - 80;
     this.pvx = 0;
@@ -195,7 +204,7 @@ export class DoodleJumpGame extends BaseGame {
     // Platforms going upward
     let y = H - 40;
     for (let i = 0; i < INITIAL_PLATFORM_COUNT; i++) {
-      y -= rand(PLAT_GAP_MIN, PLAT_GAP_MAX);
+      y -= rand(PLAT_GAP_MIN, this._platGapMax);
       const x = rand(10, W - PLAT_W - 10);
       this.platforms.push(this.createPlatform(x, y, this.pickPlatformType(0)));
     }
@@ -369,7 +378,7 @@ export class DoodleJumpGame extends BaseGame {
 
     // ── Generate new platforms ──────────────────────────────────────
     while (this.highestPlatformY > this.cameraY - 200) {
-      const gap = rand(PLAT_GAP_MIN, Math.min(PLAT_GAP_MAX, PLAT_GAP_MIN + this.displayScore * 0.02 + 40));
+      const gap = rand(PLAT_GAP_MIN, Math.min(this._platGapMax, PLAT_GAP_MIN + this.displayScore * 0.02 + 40));
       this.highestPlatformY -= gap;
       const x = rand(10, W - PLAT_W - 10);
       const type = this.pickPlatformType(this.displayScore);
@@ -380,7 +389,7 @@ export class DoodleJumpGame extends BaseGame {
       // Maybe spawn a monster
       if (
         this.displayScore >= MONSTER_SCORE_THRESHOLD &&
-        Math.random() < MONSTER_SPAWN_CHANCE &&
+        Math.random() < this._monsterSpawnChance &&
         type === "normal"
       ) {
         this.monsters.push({

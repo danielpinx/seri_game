@@ -1,5 +1,7 @@
 import { BaseGame } from "@/engine/BaseGame";
 import type { GameCallbacks } from "@/engine/types";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { diffValue } from "@/lib/settings";
 
 const WIDTH = 520;
 const HEIGHT = 620;
@@ -84,6 +86,8 @@ export class WhackAMoleGame extends BaseGame {
   private comboDisplay: { text: string; x: number; y: number; timer: number } | null = null;
   private occupiedHoles: boolean[][] = [];
   private frameCount = 0;
+  private _gameDuration = 60000;
+  private _visDurMul = 1;
 
   constructor(canvas: HTMLCanvasElement, callbacks: GameCallbacks) {
     super(canvas, CONFIG, callbacks);
@@ -94,11 +98,14 @@ export class WhackAMoleGame extends BaseGame {
   }
 
   private resetState(): void {
+    const d = useSettingsStore.getState().difficulty;
+    this._gameDuration = Math.round(diffValue(d, 75000, 60000, 45000));
+    this._visDurMul = diffValue(d, 1.3, 1, 0.7);
     this.moles = [];
     this.hitEffects = [];
     this.missEffects = [];
     this.screenFlash = null;
-    this.timeRemaining = GAME_DURATION;
+    this.timeRemaining = this._gameDuration;
     this.spawnTimer = 0;
     this.combo = 0;
     this.maxCombo = 0;
@@ -132,7 +139,7 @@ export class WhackAMoleGame extends BaseGame {
       return;
     }
 
-    const elapsed = GAME_DURATION - this.timeRemaining;
+    const elapsed = this._gameDuration - this.timeRemaining;
     const mouseDown = this.input.isMouseDown(0);
     const mouseClicked = mouseDown && !this.wasMouseDown;
     const mousePos = this.input.getMousePosition();
@@ -202,10 +209,10 @@ export class WhackAMoleGame extends BaseGame {
   }
 
   private getVisibleDuration(elapsed: number, type: MoleType): number {
-    if (type === "golden") return 800;
-    if (elapsed < 20000) return 1500 + Math.random() * 500;
-    if (elapsed < 40000) return 1200 + Math.random() * 300;
-    return 800 + Math.random() * 200;
+    if (type === "golden") return 800 * this._visDurMul;
+    if (elapsed < 20000) return (1500 + Math.random() * 500) * this._visDurMul;
+    if (elapsed < 40000) return (1200 + Math.random() * 300) * this._visDurMul;
+    return (800 + Math.random() * 200) * this._visDurMul;
   }
 
   private getMaxActiveMoles(elapsed: number): number {
@@ -414,7 +421,7 @@ export class WhackAMoleGame extends BaseGame {
 
   draw(): void {
     const ctx = this.ctx;
-    const elapsed = GAME_DURATION - this.timeRemaining;
+    const elapsed = this._gameDuration - this.timeRemaining;
     const mousePos = this.input.getMousePosition();
 
     // Draw title
@@ -482,7 +489,7 @@ export class WhackAMoleGame extends BaseGame {
     const barY = 15;
     const barW = 130;
     const barH = 16;
-    const progress = this.timeRemaining / GAME_DURATION;
+    const progress = this.timeRemaining / this._gameDuration;
     const seconds = Math.ceil(this.timeRemaining / 1000);
 
     // Background
